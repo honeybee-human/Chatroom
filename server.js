@@ -90,7 +90,9 @@ io.on('connection', (socket) => {
         color: userInfo.color,
         message: data.message,
         timestamp: new Date().toLocaleTimeString(),
-        userId: socket.id
+        userId: socket.id,
+        edited: false,
+        editedAt: null
       };
       
       // Store message
@@ -98,11 +100,71 @@ io.on('connection', (socket) => {
       
       // Keep only last 100 messages
       if (messages.length > 100) {
-        messages.shift();
+        const removedMessage = messages.shift();
+        // Remove from favorites if it was favorited
+        favoriteMessages.forEach((favorites, userId) => {
+          const index = favorites.indexOf(removedMessage.id);
+          if (index !== -1) {
+            favorites.splice(index, 1);
+          }
+        });
       }
       
       // Broadcast message to all users
       io.emit('chat-message', message);
+    }
+  });
+  
+  // Handle message editing
+  socket.on('edit-message', (data) => {
+    const messageIndex = messages.findIndex(msg => msg.id === data.messageId);
+    if (messageIndex !== -1) {
+      const message = messages[messageIndex];
+      
+      // Check if user owns the message
+      if (message.userId === socket.id) {
+        message.message = data.newMessage;
+        message.edited = true;
+        message.editedAt = new Date().toLocaleTimeString();
+        
+        // Broadcast updated message to all users
+        io.emit('message-edited', message);
+        
+        // Update favorites if this message is favorited
+        favoriteMessages.forEach((favorites, userId) => {
+          if (favorites.includes(message.id)) {
+            const favoritedMessages = messages.filter(msg => favorites.includes(msg.id));
+            io.to(userId).emit('favorites-update', favoritedMessages);
+          }
+        });
+      }
+    }
+  });
+  
+  // Handle message deletion
+  socket.on('delete-message', (messageId) => {
+    const messageIndex = messages.findIndex(msg => msg.id === messageId);
+    if (messageIndex !== -1) {
+      const message = messages[messageIndex];
+      
+      // Check if user owns the message
+      if (message.userId === socket.id) {
+        // Remove from messages array
+        messages.splice(messageIndex, 1);
+        
+        // Remove from all users' favorites
+        favoriteMessages.forEach((favorites, userId) => {
+          const index = favorites.indexOf(messageId);
+          if (index !== -1) {
+            favorites.splice(index, 1);
+            const favoritedMessages = messages.filter(msg => favorites.includes(msg.id));
+            io.to(userId).emit('favorites-update', favoritedMessages);
+          }
+        });
+        
+        // Broadcast deletion to all users
+        io.emit('message-deleted', messageId);
+      }
     }
   });
   

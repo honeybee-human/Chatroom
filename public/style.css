@@ -179,24 +179,56 @@ body {
 .message-content {
     font-size: 1rem;
     line-height: 1.4;
+    margin-bottom: 8px;
+}
+
+.message-content.editing {
+    display: none;
+}
+
+.edit-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #e1e5e9;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: white;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.message.own .edit-input {
+    background: rgba(255, 255, 255, 0.9);
 }
 
 .message-actions {
     display: flex;
     gap: 8px;
+    align-items: center;
 }
 
-.favorite-btn {
+.message-controls {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.message-controls.hidden {
+    display: none;
+}
+
+.favorite-btn, .edit-btn, .delete-btn, .save-btn, .cancel-btn {
     background: none;
     border: none;
     cursor: pointer;
     font-size: 0.9rem;
     opacity: 0.6;
     transition: opacity 0.2s;
-    padding: 2px;
+    padding: 4px 6px;
+    border-radius: 4px;
 }
 
-.favorite-btn:hover {
+.favorite-btn:hover, .edit-btn:hover, .delete-btn:hover, .save-btn:hover, .cancel-btn:hover {
     opacity: 1;
 }
 
@@ -205,12 +237,51 @@ body {
     color: #e74c3c;
 }
 
+.edit-btn {
+    color: #6f42c1;
+}
+
+.delete-btn {
+    color: #e74c3c;
+}
+
+.save-btn {
+    color: #27ae60;
+    background: rgba(39, 174, 96, 0.1);
+}
+
+.cancel-btn {
+    color: #6c757d;
+    background: rgba(108, 117, 125, 0.1);
+}
+
 .message.own .favorite-btn {
     color: rgba(255, 255, 255, 0.8);
 }
 
 .message.own .favorite-btn.favorited {
     color: #ffcccb;
+}
+
+.message.own .edit-btn, .message.own .delete-btn {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.message.own .save-btn {
+    color: #90ee90;
+    background: rgba(144, 238, 144, 0.2);
+}
+
+.message.own .cancel-btn {
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.edited-indicator {
+    font-size: 0.7rem;
+    opacity: 0.6;
+    font-style: italic;
+    margin-left: 8px;
 }
 
 /* Input Area */

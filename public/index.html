@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Little Chatroom</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar for favorites -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-heart"></i> Favorites</h3>
+            </div>
+            <div class="favorites-list" id="favorites-list">
+                <div class="no-favorites">No favorite messages yet</div>
+            </div>
+        </div>
+        
+        <!-- Main chat area -->
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="header-left">
+                    <h1>My Little Chatroom</h1>
+                </div>
+                <div class="user-info">
+                    <span id="username">Connecting...</span>
+                    <span class="user-count">Users online: <span id="user-count">0</span></span>
+                </div>
+            </div>
+            
+            <div class="chat-messages" id="chat-messages">
+                <!-- Messages will appear here -->
+            </div>
+            
+            <div class="chat-input-container">
+                <input type="text" id="message-input" placeholder="Type your message... 😊" maxlength="500">
+                <button id="emoji-button" class="emoji-button">😊</button>
+                <button id="send-button">Send</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Emoji picker -->
+    <div class="emoji-picker" id="emoji-picker">
+        <div class="emoji-grid">
+            <span class="emoji">😊</span><span class="emoji">😂</span><span class="emoji">❤️</span><span class="emoji">👍</span>
+            <span class="emoji">👎</span><span class="emoji">😍</span><span class="emoji">🤔</span><span class="emoji">😎</span>
+            <span class="emoji">🎉</span><span class="emoji">🔥</span><span class="emoji">💯</span><span class="emoji">✨</span>
+            <span class="emoji">🚀</span><span class="emoji">💪</span><span class="emoji">🙌</span><span class="emoji">👏</span>
+            <span class="emoji">😭</span><span class="emoji">😴</span><span class="emoji">🤯</span><span class="emoji">🥳</span>
+        </div>
+    </div>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
